@@ -19,16 +19,19 @@ namespace awaitClient
             
 
             NetworkStream stream = client.GetStream();
-            Console.WriteLine("Write your message here: ");
+            RecieveMessage(stream);
+
+            Console.Write("Write your message here: ");
             string text = Console.ReadLine();
             byte[] buffer = Encoding.UTF8.GetBytes(text);
 
             stream.Write(buffer, 0, buffer.Length);
             
             client.Close();
+            Console.ReadKey();
         }
 
-        public async void RecieveMessage(NetworkStream stream)
+        public static async void RecieveMessage(NetworkStream stream)
         {
             byte[] buffer = new byte[256];
             int numberOfBytesRead = await stream.ReadAsync(buffer, 0, 256);
