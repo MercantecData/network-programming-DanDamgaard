@@ -11,12 +11,17 @@ namespace updClient
         {
             UdpClient client = new UdpClient();
 
-            string text = "hello UPD"; 
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
 
-            client.Send(bytes, bytes.Length, endPoint);
+            Console.WriteLine("Write a message");
+
+            while (true)
+            {
+                string text = Console.ReadLine();
+                byte[] bytes = Encoding.UTF8.GetBytes(text);
+
+                client.Send(bytes, bytes.Length, endPoint);
+            }
         }
 
     }
