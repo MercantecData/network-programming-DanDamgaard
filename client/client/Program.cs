@@ -15,7 +15,7 @@ namespace client
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             IPEndPoint endPoint = new IPEndPoint(ip, port);
 
-            // Concect with target
+            // Connect with target
             NetworkStream stream = myStream(client, endPoint);
 
             // Message
@@ -29,7 +29,7 @@ namespace client
 
         }
 
-
+        // make connection with server
         public static NetworkStream myStream(TcpClient client, IPEndPoint endPoint)
         {
             client.Connect(endPoint);
@@ -37,6 +37,7 @@ namespace client
             return stream;
         }
 
+        // make message
         public static byte[] message()
         {
             string text = "Come to the darkside we have cookies";
