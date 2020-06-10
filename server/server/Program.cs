@@ -9,7 +9,7 @@ namespace server
     {
         static void Main(string[] args)
         {
-            // Declare
+            // Declair
             int port = 13356;
             IPAddress ip = IPAddress.Any;
             IPEndPoint localEndpoint = new IPEndPoint(ip, port);
@@ -22,16 +22,17 @@ namespace server
 
         }
 
+        // accept client
         public static TcpClient startConnect(IPEndPoint localEndpoint)
         {
             TcpListener listener = new TcpListener(localEndpoint);
             listener.Start();
             Console.WriteLine("Awaiting Clients");
             TcpClient client = listener.AcceptTcpClient();
-
             return client;
         }
 
+        // get messages
         public static string myMessage(TcpClient client)
         {
             NetworkStream stream = client.GetStream();
