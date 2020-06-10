@@ -12,15 +12,21 @@ namespace multiServer
 
         static void Main(string[] args)
         {
+            bool isRunning = true;
+
+            // declair connection
             IPAddress ip = IPAddress.Any;
             int port = 13356;
             TcpListener listener = new TcpListener(ip, port);
+
+            //start connection and receive messages
             listener.Start();
-            
             AcceptClients(listener);
 
+            // opening text
             Console.WriteLine("Write to client or wait for a message");
-            bool isRunning = true;
+
+            // send messages
             while (isRunning)
             {
                 
@@ -35,6 +41,7 @@ namespace multiServer
 
         }
 
+        // add a client and start get messages
         public static async void AcceptClients(TcpListener listener)
         {
             
@@ -48,6 +55,8 @@ namespace multiServer
             }
         }
 
+
+        // get messages and close program on command
         public static async void ReceiveMessage(NetworkStream stream, TcpClient client)
         {
             byte[] buffer = new byte[256];
