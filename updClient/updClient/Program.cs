@@ -9,12 +9,14 @@ namespace updClient
     {
         static void Main(string[] args)
         {
+            // declair connection
             UdpClient client = new UdpClient();
-
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
 
+            //opening text
             Console.WriteLine("Write a message");
 
+            // send messages
             while (true)
             {
                 string text = Console.ReadLine();
