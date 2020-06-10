@@ -3,8 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-
-
 using System.Threading.Tasks;
 
 namespace AsyncServer
@@ -13,39 +11,36 @@ namespace AsyncServer
     {
         static void Main(string[] args)
         {
+            // declair simple varbles 
+            bool done = false;
+            string text = "";
+
+            // declair connection
             int port = 13358;
             IPAddress ip = IPAddress.Any;
             IPEndPoint localEndpoint = new IPEndPoint(ip, port);
-
             TcpListener listener = new TcpListener(localEndpoint);
-            string text = "";
-
-            bool done = false;
-
-            
             listener.Start();
 
+            // openning text
             Console.WriteLine("Await Clients");
 
-
+            // getting client and messages
             Task<TcpClient> asyncClient = acceptClient(listener);
             asyncClient.Wait();
             TcpClient client = asyncClient.Result;
 
-            NetworkStream stream = client.GetStream();
-
+            
+            // instructions 
             Console.Write("Write your message or wait for a message from client \n");
 
-            //ReceiveMessage(stream);
-
+            // send messages
+            NetworkStream stream = client.GetStream();
             while (!done)
             {
                 
                 if (text != "done")
-                {
-                    
-                    
-                    
+                { 
                     text = Console.ReadLine();
                     byte[] buffer = Encoding.UTF8.GetBytes(text);
                     
@@ -55,24 +50,24 @@ namespace AsyncServer
                 {
                     done = true;
                 }
-
-                
-
             }
+
+            // close the program
             Console.WriteLine("Hit enter to close the server");
             
         }
 
+        // add client and start getting messages
         public static async Task<TcpClient> acceptClient(TcpListener listener)
         {
             
             TcpClient client = await listener.AcceptTcpClientAsync();
             NetworkStream stream = client.GetStream();
             ReceiveMessage(stream);
-
             return client;
         }
 
+        // get messages
         public static async void ReceiveMessage(NetworkStream stream)
         {
             byte[] buffer = new byte[256];
@@ -90,11 +85,7 @@ namespace AsyncServer
                 {
                     done = true;
                 }
-
             }
-
         }
-        
-
     }
 }
