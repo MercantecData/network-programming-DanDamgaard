@@ -11,29 +11,33 @@ namespace awaitClient
     {
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient();
+            // declair simple varibles
+            bool done = false;
+            string text = "";
 
+            // declair connection 
+            TcpClient client = new TcpClient();
             int port = 13358;
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             IPEndPoint endPoint = new IPEndPoint(ip, port);
-            string text = "";
-            
-
+   
+            // start connection
             client.Connect(endPoint);
             NetworkStream stream = client.GetStream();
-            bool done = false;
             
+            //openning text
             Console.Write("Write your message or wait for a message from server \n");
 
+            // start getting messages
             RecieveMessage(stream, client);
 
-           
-                while (!done)
+            // send messeges or stop program
+            while (!done)
+            {
+                if (text != "done")
                 {
-                    if (text != "done")
-                    {
-                        text = Console.ReadLine();
-                        byte[] buffer = Encoding.UTF8.GetBytes(text);
+                    text = Console.ReadLine();
+                    byte[] buffer = Encoding.UTF8.GetBytes(text);
 
                         if (client.Connected)
                         {
@@ -43,22 +47,19 @@ namespace awaitClient
                         {
                             done = true;
                         }
-                    }
-                    else
-                    {
-                        done = true;
-                    }
                 }
-            
-           
-               
-           
-            
+                else
+                {
+                    done = true;
+                }
+            }
 
+            // end the program 
             Console.WriteLine("client will close down now");
             client.Close();
         }
 
+        // get messages or end the program
         public static async void  RecieveMessage(NetworkStream stream, TcpClient client)
         {
             byte[] buffer = new byte[256];
@@ -82,10 +83,6 @@ namespace awaitClient
                     Console.WriteLine("Hit enter to close the client");
                 }
             }
-
-            
-        }
-
-        
+        } 
     }
 }
